@@ -1,29 +1,41 @@
-require_relative 'card.rb'
+require_relative "tile"
 
 class Board
 
-    def initialize(size)
-        @grid = Array.new(size) {Array.new(size)}
+    def self.from_file(file)
+        rows = File.readlines(file).map(&:chomp)
+
+        tiles = rows.map do |row|
+            nums = row.split("").map { |char| Integer(char) }
+            nums.map { |num| Tile.new(num) }
+        end
+
+        self.new(tiles)
     end
 
-    def populate
-        card_array = []
-        while card_array < (size * size) / 2
-            card = Card.create_card
-            if !card.include?(card array)
-                card_array << card
-            end
-        end
-        card_array *= 2
-        card_array.shuffle!
-        
+
+    def initialize(grid)
+        @grid = grid
+    end
+
+    def [](pos)
+        @grid[pos.first][pos.last]
+    end
+
+    def []=(pos, value)
+        @grid[pos.first][pos.last] = value
+    end
+
+    def render
         @grid.each do |row|
             row.each do |col|
-                @grid[row][col] = card_array.pop
+                if col == 0
+                    print " "
+                else
+                    print col.value
+                end
             end
+            puts
         end
     end
-    
 end
-
-
