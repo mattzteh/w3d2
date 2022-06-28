@@ -52,6 +52,7 @@ class Board
             end
             puts
         end
+        puts
        
     end
 
